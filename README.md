@@ -101,6 +101,6 @@ It give us free when calculating HOG descriptor with length of 36
 ## Running the tests
  
 you can run the ```predict.py ``` file to see the results 
-and you can retrain the model using ```train_model``` file 
+Or you can retrain the model using ```train_model.py``` file 
 
 [Mustafa Sherif]: <https://github.com/mustafasherif>
