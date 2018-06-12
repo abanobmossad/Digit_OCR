@@ -1,10 +1,7 @@
 
-# Digit recognizer
+# *Digit recognizer using knn classification* 
 
-using knn classification
-
-Project 3 | Datamining | 20/12/2017
-
+## Getting Started
 **Problem:**
 
 you have one image contains set of handwritten digits    need to extract every digit from the image and get  the right number of the digit
@@ -13,7 +10,7 @@ you have one image contains set of handwritten digits    need to extract every d
 
 our solution is divided into three main stages the first one is about the preprocessing in the input image and how to extract every digit in it and the second stage is about building the machine learning model (KNN) and train it to be ready for using the third stage is about testing our model to get the result of our solution.
 
-1. 1- **Preprcessing :**
+**1-Preprcessing :**
 
 - --Converting it to gray scale
 - --Read image using opencv
@@ -39,15 +36,12 @@ our solution is divided into three main stages the first one is about the prepro
 - --Now load the model form the disk to test the model and find it&#39;s accuracy (92.78%)
 - --Using new images to test the model
 
+----------------------------
+## After challenging work the results was great
 
-
-
-
-After challenging work the results was great
-
-![result]()
-![result]()
-![result]()
+![result](https://raw.githubusercontent.com/abanobmossad/Digit_OCR/master/Result.PNG)
+![result](https://raw.githubusercontent.com/abanobmossad/Digit_OCR/master/Result_individual_digits.PNG)
+![result](https://raw.githubusercontent.com/abanobmossad/Digit_OCR/master/Result_String.PNG)
 
 ---------------------------------------------------------------------------------
 
@@ -91,3 +85,22 @@ We first was using dataset from  skimage.digit but images in this dataset was sm
 It give us free when calculating HOG descriptor with length of 36
 
 [MNIST]: <http://yann.lecun.com/exdb/mnist/>
+
+
+## Built With
+- OpenCv
+- matplotlib
+- skimage
+- numpy
+- sklearn
+- pickle
+
+## Authors
+- Abanob Mosaad 
+- [Mustafa Sherif]
+## Running the tests
+ 
+you can run the ```predict.py ``` file to see the results 
+and you can retrain the model using ```train_model``` file 
+
+[Mustafa Sherif]: <https://github.com/mustafasherif>
