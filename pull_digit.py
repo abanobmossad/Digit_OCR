@@ -15,7 +15,7 @@ def labeled_user_image(image,k = 0):
     cleaned = morphology.remove_small_objects(im_bw, min_size=20, connectivity=2)
     cleaned = np.array(cleaned, dtype=int)
     cleaned = 255+cleaned
-    label, n = measure.label(cleaned, neighbors=8, background=255, return_num=True, connectivity=2)
+    label, n = measure.label(cleaned, connectivity=2, background=255, return_num=True)
     print("numbers of numpers on image : ",n)
     x = []
     y = []
@@ -37,12 +37,16 @@ def labeled_user_image(image,k = 0):
         padding[padd_y//2:padding.shape[0]-padd_y//2, k//2:padding.shape[1] - k//2] = digit
         ph.append(padding)
 
-        re_digit= cv2.resize(np.array(padding,dtype='float64'), (28, 28), interpolation=cv2.INTER_AREA)
-        re_digit = cv2.dilate(re_digit, (3, 3))
-        # Calculate the HOG features
-        roi_hog_fd = hog(re_digit, orientations=9, pixels_per_cell=(14, 14), cells_per_block=(1, 1), visualise=False)
+        if not padding.size:
+            # Handle empty image, for example, print a warning and skip processing
+            print("Warning: Empty image")
+        else:
+            re_digit = cv2.resize(np.array(padding, dtype='float64'), (28, 28), interpolation=cv2.INTER_AREA)
 
-        numbers.append( np.array([roi_hog_fd], 'float64'))
+            # Calculate the HOG features
+            roi_hog_fd = hog(re_digit, orientations=9, pixels_per_cell=(14, 14), cells_per_block=(1, 1))
+
+            numbers.append( np.array([roi_hog_fd], 'float64'))
         x = []
         y = []
 

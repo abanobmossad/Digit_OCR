@@ -1,15 +1,16 @@
 from matplotlib import pyplot as plt
 from skimage.feature import hog
 from matplotlib import patches
-from sklearn.datasets import fetch_mldata
+from sklearn.datasets import fetch_openml
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 import numpy as np
 import pickle
 from pull_digit import labeled_user_image
 import cv2
+from sklearn import svm
 
-mnist = fetch_mldata('mnist-original', data_home="dataset")
+mnist = fetch_openml('mnist_784')
 
 x = np.array(mnist.data, 'int16')
 y = np.array(mnist.target, 'int')
@@ -21,28 +22,29 @@ x_train, x_test, y_train, y_test = train_test_split(
 def train_model(x_train, y_train):
     list_hog_fd = []
     for feature in x_train:
-        fd = hog(feature.reshape((28, 28)), orientations=9, pixels_per_cell=(14, 14), cells_per_block=(1, 1),
-                 visualise=False)
+        fd = hog(feature.reshape((28, 28)), orientations=9, pixels_per_cell=(14, 14), cells_per_block=(1, 1))
         list_hog_fd.append(fd)
 
     x_train = np.array(list_hog_fd, 'float64')
 
-    knn = KNeighborsClassifier()
-    knn.fit(x_train, y_train)
+    # knn = KNeighborsClassifier()
+    # knn.fit(x_train, y_train)
 
+    sv = svm.SVC()
+    sv.fit(x_train,y_train)
     # save the model to disk
-    filename = 'digit_knn_model.sav'
-    pickle.dump(knn, open(filename, 'wb'))
+    # filename = 'digit_knn_model.sav'
+    filename = 'digit_svm_model.sav'
+    pickle.dump(sv, open(filename, 'wb'))
 
 
 def knn_score(x_test, y_test):
-    filename = 'digit_knn_model.sav'
+    filename = 'digit_svm_model.sav'
     # load the model from disk
     knn = pickle.load(open(filename, 'rb'))
     list_hog_fd = []
     for feature in x_test:
-        fd = hog(feature.reshape((28, 28)), orientations=9, pixels_per_cell=(14, 14), cells_per_block=(1, 1),
-                 visualise=False)
+        fd = hog(feature.reshape((28, 28)), orientations=9, pixels_per_cell=(14, 14), cells_per_block=(1, 1))
         list_hog_fd.append(fd)
 
     x_test = np.array(list_hog_fd, 'float64')
@@ -55,7 +57,7 @@ def knn_score(x_test, y_test):
 
 
 def knn_predict(image):
-    filename = 'digit_knn_model.sav'
+    filename = 'digit_svm_model.sav'
     # load the model from disk
     knn = pickle.load(open(filename, 'rb'))
     expected = knn.predict(image)
@@ -74,7 +76,8 @@ def read_image(rects, nums):
     max_x = np.max(xx)
     max_y = np.max(yy)
 
-    digits = np.zeros((max_x + 5, max_y + 5), np.object)
+    digits = np.zeros((max_x + 5, max_y + 5), object)
+
 
     return digits
 
