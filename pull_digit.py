@@ -52,6 +52,6 @@ def labeled_user_image(image,k = 0):
 
     return numbers,ph,rect
 
-#im = cv2.imread(r'test_images/numbers.png')
-# nums =labeled_user_image(im)
-# plt.show()
+im = cv2.imread(r'test_images/numbers.png')
+nums =labeled_user_image(im)
+plt.show()
